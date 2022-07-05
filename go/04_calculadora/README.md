@@ -6,7 +6,7 @@ Este es un proyecto minimo donde se muestra un modulo denominado **04_calculador
 cd 04_calculadora/basica
 go test
 ```
-## Ejecucion
+### Ejecucion
 ```
 go run main.go
 ```
