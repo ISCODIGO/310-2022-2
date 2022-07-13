@@ -7,10 +7,13 @@ func TestListaVacia(t *testing.T) {
 
 	// Tendra un size == 0
 	if lista.Length() != 0 {
-		t.Error("Se esperaba un size cero")
+		t.Error("Elementos esperados 0, obtenidos", lista.Length())
 	}
 
 }
+
+// 10 | 20
+// 0  | 1
 
 func TestAppend(t *testing.T) {
 	lista := NewListaArray()
@@ -20,19 +23,19 @@ func TestAppend(t *testing.T) {
 
 	// Tendra 2 elementos
 	if lista.Length() != 2 {
-		t.Error("Se esperaban 2 elementos")
+		t.Error("Elementos esperados 2, obtenidos", lista.Length())
 	}
 
-	lista.MoveToPos(0)
-	valor, _ := lista.GetValue()
-	if valor != 10 {
-		t.Error("Se esperaba que el primero fuese 10")
+	lista.MoveToPos(0) // lista.MoveToStart()
+	valor_1, _ := lista.GetValue()
+	if valor_1 != 10 {
+		t.Error("Esperado 10, obtenido", valor_1)
 	}
 
 	lista.MoveToPos(1)
-	valor, _ = lista.GetValue()
-	if valor != 20 {
-		t.Error("Se esperaba que el segundo fuese 20")
+	valor_2, _ := lista.GetValue()
+	if valor_2 != 20 {
+		t.Error("Esperado 20, obtenido", valor_2)
 	}
 }
 
@@ -43,36 +46,36 @@ func TestRemove(t *testing.T) {
 	lista.Append(20)
 
 	lista.MoveToStart()
-	removido, error := lista.Remove()  // Remueve el primero
-	
+	removido_1, error := lista.Remove() // Remueve el primero
+
 	if error != nil {
-		t.Error("Este error no debio ocurrir:", error)
+		t.Error("Error inesperado", error)
 	}
-	
-	if removido != 10 {
-		t.Error("Debio removerse el 10 pero se removio el", removido)
+
+	if removido_1 != 10 {
+		t.Error("Esperado 10, obtenido", removido_1)
 	}
 
 	if lista.Length() != 1 {
-		t.Error("Debia quedar solo 1 elemento y hay", lista.Length())
+		t.Error("Esperado 1 elemento, obtenido", lista.Length())
 	}
 
 	removido_2, error := lista.Remove()
 
 	if error != nil {
-		t.Error("Este error no debio ocurrir:", error)
+		t.Error("Error inesperado:", error)
 	}
 
 	if removido_2 != 20 {
-		t.Error("Debio removerse el 20 pero fue", removido_2)
-	} 
+		t.Error("Esperadoo 20, obtenido", removido_2)
+	}
 
 	if lista.Length() != 0 {
-		t.Error("Debia quedar vacio")
+		t.Error("Esperado 0, obtenido", lista.Length())
 	}
 
 	_, error = lista.Remove()
-	
+
 	if error == nil {
 		t.Error("Debio generarse un error")
 	}
@@ -85,8 +88,8 @@ func TestClear(t *testing.T) {
 	lista.Append(20)
 	lista.Clear()
 
-	if lista.Length() != 0 {
-		t.Error("Debia quedar vacio, obtengo", lista.Length())
+	if lista.Length() == 0 {
+		t.Error("Debia estar vacio pero hay ", lista.Length())
 	}
 }
 
@@ -99,21 +102,21 @@ func TestMoveNext(t *testing.T) {
 
 	lista.MoveToStart()
 	lista.Next()
-	actual, _ := lista.GetValue()
-	if actual != 20 {
-		t.Error("Next: El valor debio ser 20")
+	primero, _ := lista.GetValue()
+	if primero != 20 {
+		t.Error("Esperado 20, obtenido", primero)
 	}
 
 	lista.Next()
-	actual, _ = lista.GetValue()
-	if actual != 30 {
-		t.Error("Next: El valor debio ser 30")
+	segundo, _ := lista.GetValue()
+	if segundo != 30 {
+		t.Error("Esperado 30, obtenido", segundo)
 	}
 
 	lista.Next()
-	actual, _ = lista.GetValue()
-	if actual != 30 {
-		t.Error("Next: no debe moverse al llegar al final. Sale", actual)
+	tercero, _ := lista.GetValue()
+	if tercero != 30 {
+		t.Error("Esperado 30, obtenido ", tercero)
 	}
 }
 
@@ -126,28 +129,28 @@ func TestMovePrev(t *testing.T) {
 	lista.Append(30)
 	lista.MoveToEnd()
 
-	actual, _ := lista.GetValue()
-	if actual != 30 {
-		t.Error("MoveToEnd: el valor debio ser 30 pero aparece", actual)
+	primero, _ := lista.GetValue()
+	if primero != 30 {
+		t.Error("Esperado 30, obtenido", primero)
 	}
 
 	lista.Prev()
-	actual, _ = lista.GetValue()
-	if actual != 20 {
-		t.Error("Prev: el valor debio ser 20 pero aparece", actual)
+	segundo, _ := lista.GetValue()
+	if segundo != 20 {
+		t.Error("Esperado 20, obtenido", segundo)
 	}
 
 	lista.Prev()
-	actual, _ = lista.GetValue()
-	if actual != 10 {
-		t.Error("Prev: el valor debio ser 10 pero aparece", actual)
+	tercero, _ := lista.GetValue()
+	if tercero != 10 {
+		t.Error("Esperado 10 obtenido", tercero)
 	}
 
 	// Ese es el comportamiento del libro: al llegar al principio no retrocede mas
 	lista.Prev()
-	actual, _ = lista.GetValue()
-	if actual != 10 {
-		t.Error("Prev: No debe moverse al llegar al principio")
+	tercero_2, _ := lista.GetValue()
+	if tercero_2 != 10 {
+		t.Error("Esperado 10 obtenido", tercero_2)
 	}
 }
 
@@ -161,11 +164,17 @@ func TestInsert(t *testing.T) {
 
 	valor, _ := lista.GetValue()
 	if lista.Length() != 3 {
-		t.Error("Deben tener 3 elemento pero hay", lista.Length())
+		t.Error("Esperados 3 elementos, obtenido", lista.Length())
 	}
 
 	if valor != 20 {
-		t.Error("En la posicion 1 debe estar el 20 pero esta", valor)
+		t.Error("Esperado 20, obtenido ", valor)
+	}
+
+	lista.MoveToEnd()
+	valor, _ = lista.GetValue()
+	if valor != 30 {
+		t.Error("Esperado 30, obtenido ", valor)
 	}
 }
 
