@@ -1,6 +1,9 @@
 package array
 
-import "errors"
+import (	
+	"errors"
+	"fmt"
+)
 
 type ListaArray struct {
 	data []int
@@ -25,7 +28,10 @@ func (lista ListaArray) Length() (int) {
 }
 
 func (lista *ListaArray) Clear() {
-	lista = NewListaArray()
+	lista.size = 0
+	lista.curr = 0
+	// 10 | 20 | 30 | 40 curr=2 size=4
+	// 10 | 20 | 30 | 40 curr=0 size=0
 }
 
 func (lista *ListaArray) MoveToPos(pos int) (err error) {
@@ -57,7 +63,7 @@ func (lista *ListaArray) Next() {
 	}
 }
 
-func (lista *ListaArray) GetValue() (valor int, err error) {
+func (lista ListaArray) GetValue() (valor int, err error) {
 	if lista.size == 0 {
 		err = errors.New("lista vacia")
 	} else {
@@ -67,6 +73,7 @@ func (lista *ListaArray) GetValue() (valor int, err error) {
 }
 
 func (lista *ListaArray) Append(valor int) (err error) {
+	// O(1)
 	if lista.size > lista.capacity {
 		err = errors.New("capacidad excedida")
 	}
@@ -77,6 +84,7 @@ func (lista *ListaArray) Append(valor int) (err error) {
 }
 
 func (lista *ListaArray) Remove() (valor int, err error) {
+	// O(n)
 	if lista.size == 0 {
 		err = errors.New("lista vacia")
 	} 
@@ -90,15 +98,35 @@ func (lista *ListaArray) Remove() (valor int, err error) {
 }
 
 func (lista *ListaArray) Insert(valor int) (err error) {
+	// O(n)
 	if lista.size >= lista.capacity {
 		err = errors.New("capacidad excedida")
 	}
 
-	for i := lista.size - 1; i > lista.curr; i-- {
+	for i := lista.size; i > lista.curr; i-- {
 		lista.data[i] = lista.data[i - 1]
 	}
 
 	lista.data[lista.curr] = valor
 	lista.size++
 	return
+}
+
+func (lista *ListaArray) Find(valor int) (int) {
+	// implementar linear search -> O(n)
+	lista.MoveToStart()
+	for i := lista.curr; i < lista.size; i++ {
+		valor_actual, _ := lista.GetValue()
+
+		if valor_actual == valor {
+			return lista.curr
+		}
+		lista.Next()
+	}
+
+	return -1
+}
+
+func (lista ListaArray) String() (string) {
+	return fmt.Sprintf("Data: %v\nCurrent: %v", lista.data, lista.curr)
 }

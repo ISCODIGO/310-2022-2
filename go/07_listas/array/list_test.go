@@ -85,8 +85,8 @@ func TestClear(t *testing.T) {
 	lista.Append(20)
 	lista.Clear()
 
-	if lista.Length() == 0 {
-		t.Error("Debia quedar vacio")
+	if lista.Length() != 0 {
+		t.Error("Debia quedar vacio, obtengo", lista.Length())
 	}
 }
 
@@ -166,5 +166,24 @@ func TestInsert(t *testing.T) {
 
 	if valor != 20 {
 		t.Error("En la posicion 1 debe estar el 20 pero esta", valor)
+	}
+}
+
+func TestFind(t *testing.T) {
+	lista := NewListaArray()
+	lista.Append(10)  // 0
+	lista.Append(20)  // 1
+	lista.Append(30)  // 2
+
+	hallado_1 := lista.Find(20)
+
+	if hallado_1 != 1 {
+		t.Error("Posicion requerida 1, obtenida", hallado_1)
+	}
+
+	hallado_2 := lista.Find(50)
+
+	if hallado_2 != -1 {
+		t.Error("Posicion requerida -1, obtenida", hallado_2)
 	}
 }
