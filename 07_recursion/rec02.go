@@ -13,14 +13,14 @@ func SumarNBucle(n int) int {
 
 var recursiones int = 0
 func SumarNRecursion(n int) int {
-	// Caso base
 	if n == 1 {
+		// Caso base
 		recursiones++
 		return 1
 	}
 
-	recursiones++
 	// Caso recursivo
+	recursiones++
 	return n + SumarNRecursion(n - 1)
 }
 

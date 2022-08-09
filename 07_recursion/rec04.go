@@ -5,6 +5,7 @@ import "fmt"
 var recursiones int = 0
 
 func fibonacci(n int, buffer []int) int {
+	// O(n)
 	if n < 2 {
 		recursiones++
 		return n
@@ -14,7 +15,7 @@ func fibonacci(n int, buffer []int) int {
 
 	// Se crea el buffer
 	if len(buffer) == 0 {
-		buffer = make([]int, n + 1)
+		buffer = make([]int, n + 1)  // el slice se rellena de ceros
 		buffer[0] = 0
 		buffer[1] = 1
 	}
