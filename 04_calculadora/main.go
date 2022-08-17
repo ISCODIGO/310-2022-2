@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "310-2022-/04_calculadora/basica"
+import "310-2022-2/04_calculadora/basica"
 
 func main() {
 	resultado := basica.Sumar(3, 2)
